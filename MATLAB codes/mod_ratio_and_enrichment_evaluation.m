@@ -15,7 +15,7 @@ height=diam;    % (cm)
 
 % Geometrical calculations
 vol=pi*(diam^2)/4*height;    % (cm^3)
-pow_dens=pow/vol;      % (kW/litro)
+pow_dens=pow/vol;      % (kW/l)
 
 % Constants
 T_0=20+273.15;  % (K)

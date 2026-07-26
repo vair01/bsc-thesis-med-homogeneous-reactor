@@ -1,0 +1,8 @@
+# MATLAB temporary and auto-save files
+*.asv
+*.mat
+*.log
+
+# Operating system metadata
+.DS_Store
+Thumbs.db
