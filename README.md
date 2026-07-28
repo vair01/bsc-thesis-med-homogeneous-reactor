@@ -1,4 +1,4 @@
-# Design of a homogeneous reactor for the production of radionuclides for medical purposes
+# Design of a Homogeneous Reactor for the Production of Radionuclides for Medical Purposes
 
 This repository contains the MATLAB codes developed for my Bachelor's Thesis in Energy Engineering at **Politecnico di Torino** (Academic Year 2023-2024).
 
@@ -47,10 +47,57 @@ The depletion simulation tracks the isotopes ${}^{235}\text{U}$, ${}^{238}\text{
 
 ---
 
+## Repository structure
+
+```
+bsc-thesis-med-homogeneous-reactor/
+├── images/
+│   ├── keff_vs_enr_and_mod_ratio.png
+│   └── mo99_activity_with_extraction.png
+├── MATLAB codes/
+│   ├── fuel_cycle_and_mo99_production.m
+│   └── mod_ratio_and_enrichment_evaluation.m
+├── bsc_thesis_homogeneous_reactor_VairPiova_ITA.pdf
+└── README.md
+```
+
+---
+
+## Getting Started & Prerequisites
+
+### 1. MATLAB requirements
+
+The scripts were developed and tested with **MATLAB R2023b** (or later). No additional toolboxes beyond base MATLAB are required: all numerical methods (four-factor formula evaluation, Forward Euler integration, bisection root-finding) are implemented directly in the scripts, without relying on the Optimization or Symbolic Math Toolboxes.
+
+> Developed and tested on Windows with MATLAB R2023b. The scripts use no OS-specific functions, so they should run unmodified on macOS/Linux as well.
+
+### 2. Running the scripts
+
+Clone the repository and open the folder in MATLAB, then run the scripts in the following order:
+
+**Step 1 — Core criticality & parametric optimization**
+```matlab
+cd 'MATLAB codes'
+mod_ratio_and_enrichment_evaluation
+```
+This produces the four-factor formula plots, $k_{\infty}$ and $k_{eff}$ curves as a function of moderation ratio and enrichment, and identifies the optimal under-moderated design point.
+
+**Step 2 — Fuel cycle & Mo-99 production**
+```matlab
+fuel_cycle_and_mo99_production
+```
+This runs the 6-month burnup simulation. The script is structured in two sequential phases:
+1. A continuous cycle without isotope removal.
+2. A cycle with weekly ${}^{99}\text{Mo}$ extraction.
+
+> ⚠️ **Note:** execution pauses between the two phases — the script waits for you to press any key in the MATLAB Command Window before proceeding to the extraction cycle.
+
+---
+
 ## File Guide
 
-*   **`mod_ratio_and_enrichment_evaluation.m`**: script for the initial parametric study of moderation ratio ($\Theta$) and enrichment in the absence of poison. Generates plots for the four factors, $k_{\infty}$, and $k_{eff}$.
-*   **`fuel_cycle_and_mo99_production.m`**: script simulating the 6-month operation cycle, poison burnable absorber control via non-linear bisection, and weekly ${}^{99}\text{Mo}$ extraction activity. The simulation is structured in two sequential phases: a continuous cycle without isotope removal, followed by a cycle with weekly ${}^{99}\text{Mo}$ extraction. The execution pauses between the two phases, requiring the user to press any key in the MATLAB Command Window to proceed to the extraction cycle. 
+*   **`MATLAB codes/mod_ratio_and_enrichment_evaluation.m`**: script for the initial parametric study of moderation ratio ($\Theta$) and enrichment in the absence of poison. Generates plots for the four factors, $k_{\infty}$, and $k_{eff}$.
+*   **`MATLAB codes/fuel_cycle_and_mo99_production.m`**: script simulating the 6-month operation cycle, poison burnable absorber control via non-linear bisection, and weekly ${}^{99}\text{Mo}$ extraction activity. The simulation is structured in two sequential phases: a continuous cycle without isotope removal, followed by a cycle with weekly ${}^{99}\text{Mo}$ extraction. The execution pauses between the two phases, requiring the user to press any key in the MATLAB Command Window to proceed to the extraction cycle.
 
 ---
 
@@ -59,12 +106,24 @@ The depletion simulation tracks the isotopes ${}^{235}\text{U}$, ${}^{238}\text{
 ### Effective Multiplication Factor ($k_{eff}$) Optimization
 The initial optimization is kept on the under-moderated side of the curve (left of the peak) to guarantee a negative temperature coefficient, ensuring intrinsic reactor safety.
 
- ![k_eff vs enrichment and moderation ratio](images/keff_vs_enr_and_mod_ratio.png)
+![k_eff vs enrichment and moderation ratio](images/keff_vs_enr_and_mod_ratio.png)
 
 ### Weekly ${}^{99}\text{Mo}$ Production Activity
 By implementing a 7-day extraction cycle, the reactor ensures a constant supply of molybdenum-99, producing approximately $471.4\text{ 6-day Ci}$ per week, and managing to complete 25 full cycles over a 6-month operating period.
 
 ![Weekly Mo-99 Production Activity over 6 Months from fissions](images/mo99_activity_with_extraction.png)
+
+---
+
+## Full thesis
+
+The complete written thesis, including the full derivation of the neutronic model, sensitivity analyses, and discussion of results, is available as [`bsc_thesis_homogeneous_reactor_VairPiova_ITA.pdf`](./bsc_thesis_homogeneous_reactor_VairPiova_ITA.pdf).
+
+---
+
+## License
+
+This repository was developed for academic purposes as part of my Bachelor's Thesis in Energy Engineering, Politecnico di Torino, A.Y. 2023-2024. Feel free to reuse the scripts and methodology for educational purposes, with attribution.
 
 ---
 
