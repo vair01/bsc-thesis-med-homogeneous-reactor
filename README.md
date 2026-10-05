@@ -25,21 +25,21 @@ The objective of this project is the neutronic design and fuel cycle analysis of
 | **Operating temperature** | $60^\circ\text{C}$ (at atmospheric pressure) |
 | **Core dimensions** | Height: $100\text{ cm}$ \| Diameter: $100\text{ cm}$ |
 | **Burnable neutron poison** | Gadolinium oxide ($\text{Gd}_2\text{O}_3$) |
-| **Weekly ${}^{99}\text{Mo}$ production** | $\sim 471.4\text{ 6-day Ci}$ ($\sim 5\%$ of global demand) |
+| **Weekly ${}^{99}\text{Mo}$ production** | $\sim 471.4\text{ 6-day Ci}$ ($\sim$ 5% of global demand) |
 
 ---
 
-## Physical & numerical modeling
+## Physical and numerical modeling
 
 The simulation is split into two sequential phases across the MATLAB scripts:
 
-### 1. Core criticality & parametric optimization
+### 1. Core criticality and parametric optimization
 The code evaluates the infinite multiplication factor ($k_{\infty}$) and effective multiplication factor ($k_{eff}$) using:
 *   **The four-factor formula:** computes $\eta$, $f$, $p$, and $\epsilon$ as a function of the moderation ratio $\Theta$ and fuel enrichment ($1\%$ to $5\%$).
 *   **Westcott formalism:** applies temperature-dependent thermal cross-section corrections using Westcott $g$-factors at $60^\circ\text{C}$.
 *   **Non-leakage probabilities ($P_{nl}$):** evaluates thermal and fast non-leakage utilizing a cylindrical geometric buckling ($B_g^2$) formulation.
 
-### 2. Fuel cycle & activation kinetics (6-month burnup)
+### 2. Fuel cycle and activation kinetics (6-month burnup)
 The depletion simulation tracks the isotopes ${}^{235}\text{U}$, ${}^{238}\text{U}$, ${}^{239}\text{Pu}$, and the activation product ${}^{99}\text{Mo}$ over a 180-day cycle:
 *   **ODE solver (Forward Euler):** numerically integrates the transmutation and activation rate equations with a time step of $\Delta t = 1\text{ h}$.
 *   **Criticality control (bisection method):** dynamically adjusts the concentration of the neutron absorber ($Gd_2O_3$) at each time step to maintain $k_{eff} = 1$ despite fuel depletion and Plutonium breeding.
@@ -63,26 +63,26 @@ bsc-thesis-med-homogeneous-reactor/
 
 ---
 
-## Getting Started & Prerequisites
+## Getting started and prerequisites
 
 ### 1. MATLAB requirements
 
 The scripts were developed and tested with **MATLAB R2023b** (or later). No additional toolboxes beyond base MATLAB are required: all numerical methods (four-factor formula evaluation, Forward Euler integration, bisection root-finding) are implemented directly in the scripts, without relying on the Optimization or Symbolic Math Toolboxes.
 
-> Developed and tested on Windows with MATLAB R2023b. The scripts use no OS-specific functions, so they should run unmodified on macOS/Linux as well.
+> Since the scripts use no OS-specific functions, they should run unmodified on macOS/Linux as well.
 
 ### 2. Running the scripts
 
 Clone the repository and open the folder in MATLAB, then run the scripts in the following order:
 
-**Step 1 — Core criticality & parametric optimization**
+**Step 1 - Core criticality and parametric optimization**
 ```matlab
 cd 'MATLAB codes'
 mod_ratio_and_enrichment_evaluation
 ```
 This produces the four-factor formula plots, $k_{\infty}$ and $k_{eff}$ curves as a function of moderation ratio and enrichment, and identifies the optimal under-moderated design point.
 
-**Step 2 — Fuel cycle & Mo-99 production**
+**Step 2 - Fuel cycle and Mo-99 production**
 ```matlab
 fuel_cycle_and_mo99_production
 ```
@@ -90,28 +90,44 @@ This runs the 6-month burnup simulation. The script is structured in two sequent
 1. A continuous cycle without isotope removal.
 2. A cycle with weekly ${}^{99}\text{Mo}$ extraction.
 
-> ⚠️ **Note:** execution pauses between the two phases — the script waits for you to press any key in the MATLAB Command Window before proceeding to the extraction cycle.
+> ⚠️ **Note:** execution pauses between the two phases, so the script waits for you to press any key in the MATLAB Command Window before proceeding to the extraction cycle.
 
 ---
 
-## File Guide
+## File guide
 
 *   **`MATLAB codes/mod_ratio_and_enrichment_evaluation.m`**: script for the initial parametric study of moderation ratio ($\Theta$) and enrichment in the absence of poison. Generates plots for the four factors, $k_{\infty}$, and $k_{eff}$.
 *   **`MATLAB codes/fuel_cycle_and_mo99_production.m`**: script simulating the 6-month operation cycle, poison burnable absorber control via non-linear bisection, and weekly ${}^{99}\text{Mo}$ extraction activity. The simulation is structured in two sequential phases: a continuous cycle without isotope removal, followed by a cycle with weekly ${}^{99}\text{Mo}$ extraction. The execution pauses between the two phases, requiring the user to press any key in the MATLAB Command Window to proceed to the extraction cycle.
 
 ---
 
-## Results and Visualizations
+## Results and visualizations
 
-### Effective Multiplication Factor ($k_{eff}$) Optimization
+### Effective multiplication factor ($k_{eff}$) optimization
 The initial optimization is kept on the under-moderated side of the curve (left of the peak) to guarantee a negative temperature coefficient, ensuring intrinsic reactor safety.
 
-![k_eff vs enrichment and moderation ratio](images/keff_vs_enr_and_mod_ratio.png)
+<table align="center">
+  <tr>
+    <td align="center" width="50%" valign="top">
+      <img src="images/keff_vs_enr_and_mod_ratio.png" width="95%" alt="TF Winding Pack Current Density" />
+      <br>
+      <em> Trend in the effective multiplication constant as enrichment and the moderation ratio vary.</em>
+    </td>
+  </tr>
+</table>
 
-### Weekly ${}^{99}\text{Mo}$ Production Activity
+### Weekly ${}^{99}\text{Mo}$ production activity
 By implementing a 7-day extraction cycle, the reactor ensures a constant supply of molybdenum-99, producing approximately $471.4\text{ 6-day Ci}$ per week, and managing to complete 25 full cycles over a 6-month operating period.
 
-![Weekly Mo-99 Production Activity over 6 Months from fissions](images/mo99_activity_with_extraction.png)
+<table align="center">
+  <tr>
+    <td align="center" width="50%" valign="top">
+      <img src="images/mo99_activity_with_extraction.png" width="95%" alt="TF Winding Pack Current Density" />
+      <br>
+      <em> Mo-99 production cycle via fission over a 6-month period.</em>
+    </td>
+  </tr>
+</table>
 
 ---
 
@@ -127,7 +143,7 @@ This repository was developed for academic purposes as part of my Bachelor's The
 
 ---
 
-## Academic References
+## Academic references
 1. **Lamarsh, J. R., Baratta, A. J.** *Introduction to Nuclear Engineering*. (Standard reference for the four-factor formula and neutronic parameters).
 2. **Murray, R. L., Holbert, K. E.** *Nuclear Energy: An Introduction to the Concepts, Systems, and Applications of Nuclear Processes*. (Source for moderator properties and Fermi age data).
 3. **IAEA TECDOC-1601** (2008). *Homogeneous Aqueous Solution Nuclear Reactors for the Production of Mo-99 and other Short Lived Radioisotopes*. (Technical reference for the Chinese MIPR reactor design used to scale this project's core dimensions).
